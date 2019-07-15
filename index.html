@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <title>koa-blog</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+
+  <script>
+    // 进行适配
+    //获取屏幕大小
+    let htmlWidth = document.documentElement.clientWidth || document.body.clientWidth
+    //获取html元素
+    let htmlDom = document.getElementsByTagName('html')[0]
+    if (htmlWidth > 750) {
+      htmlWidth = 750
+    }
+    //设置根元素字号
+    htmlDom.style.fonntSize = htmlWidth / 20 + 'px'
+  </script>
+</body>
+
+</html>
