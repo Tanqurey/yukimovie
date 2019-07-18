@@ -21,15 +21,18 @@ import {
   SidebarItem,
   Tab,
   Tabs,
-  Loading
+  Loading,
+  Popup,
+  NavBar,
+  Toast
 } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Field).use(Swipe).use(SwipeItem).use(Lazyload).use(Grid).use(GridItem).use(Divider)
-  .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading)
+  .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast)
 
 Vue.config.productionTip = false
 
-// 进行默认前缀配置
-Axios.defaults.baseURL = '/api'
+// // 进行默认前缀配置
+// Axios.defaults.baseURL = '/api'
 
 /* eslint-disable no-new */
 new Vue({

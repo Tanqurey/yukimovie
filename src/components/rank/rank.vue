@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="rank-container">
     <div class="fixed-box">
       <div class="rank-header">
-        <p class="header-text">{{rankName[titleIndex]}}</p>
+        <p class="header-text">{{rankName[activeIndex]}}</p>
       </div>
       <div class="nav-container">
-        <van-tabs v-model="activeNav" :color="'#8BC34A'" :title-active-color="'#8BC34A'">
-          <van-tab v-for="(item,idx) in rankName" :key="idx" :title="item" :disabled="isLoading"></van-tab>
+        <van-tabs v-model="activeIndex" :color="'#8BC34A'" :title-active-color="'#8BC34A'">
+          <van-tab
+            v-for="(item,idx) in rankName"
+            :key="idx"
+            :title="item"
+            :disabled="isLoading&&idx===activeIndex"
+          ></van-tab>
         </van-tabs>
       </div>
     </div>
@@ -28,9 +33,8 @@ export default {
   },
   data() {
     return {
-      activeNav: 0,
+      activeIndex: null,
       rankName: ['北美票房榜', '全球新片榜', '本周口碑榜'],
-      titleIndex: 0,
       rankList: [],
       isLoading: true
     }
@@ -53,8 +57,8 @@ export default {
     }
   },
   watch: {
-    activeNav(newIndex) {
-      this.titleIndex = newIndex
+    activeIndex(newIndex) {
+      this.activeIndex = newIndex
       this._getRankData(newIndex)
     }
   },
@@ -68,6 +72,10 @@ export default {
 <style lang="stylus" scoped>
 @import '~common/stylus/reset.styl';
 @import '~common/stylus/variables.styl';
+
+.rank-container {
+  margin-top: 7rem + (54 / 20rem);
+}
 
 .fixed-box {
   position: fixed;
@@ -89,20 +97,14 @@ export default {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      color: $grey-color;
-      border-bottom: 1px solid $grey-color;
+      color: $white-text;
+      border-bottom: 2px solid $primary-color;
     }
 
     .nav-container {
       width: 100%;
       margin: 0 auto;
-      touch-action: none;
     }
   }
-}
-
-.rank-content {
-  position: relative;
-  top: 7rem + (54 / 20rem);
 }
 </style>

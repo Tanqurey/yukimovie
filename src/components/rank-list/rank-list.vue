@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="swiper-container">
     <ul>
       <li v-for="(item,idx) in dataList" :key="idx" class="best-li">
         <img v-lazy="item.imageUrl" alt />
@@ -7,7 +7,7 @@
         <p class="best-movie-score">综合评分：{{item.score|scoreFilter}}</p>
         <p class="best-movie-tags">{{item.tags}}</p>
         <p class="best-movie-mark">#</p>
-        <p class="best-movie-rank">{{idx+1}}</p>
+        <p class="best-movie-rank" :class="{'movie-rank':idx>2}">{{idx+1}}</p>
       </li>
     </ul>
   </div>
@@ -30,7 +30,6 @@ export default {
         slidesPerView: 'auto',
         freeMode: true,
         mousewheel: true,
-        freeModeSticky: true,
         observer: true,
         observeParents: true
       }
@@ -42,7 +41,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~common/stylus/reset.styl';
 @import '~common/stylus/variables.styl';
 
@@ -88,7 +87,11 @@ export default {
     right: 1.4rem;
     top: 2rem;
     font-size: $font-size-title;
-    color: $dark-primary-color;
+    color: $light-primary-color;
+  }
+
+  .movie-rank {
+    color: $grey-color;
   }
 
   img {

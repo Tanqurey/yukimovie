@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="nav-container">
-      <div class="left-container">
+      <div class="left-container" @click="jumpToCenter">
         <p class="m-icon m-iconyonghu1 icon-user"></p>
         <p class="user">个人中心</p>
       </div>
@@ -103,6 +103,11 @@ export default {
     jumpToRank() {
       this.$router.push({
         path: '/rank'
+      })
+    },
+    jumpToCenter() {
+      this.$router.push({
+        path: '/user/login'
       })
     }
   },

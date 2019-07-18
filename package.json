@@ -1,7 +1,7 @@
 {
-  "name": "koa-blog",
+  "name": "yukimovie",
   "version": "1.0.0",
-  "description": "a vue blog",
+  "description": "a vue movie website",
   "author": "Tanqurey <516244921@qq.com>",
   "private": true,
   "scripts": {
@@ -21,6 +21,8 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "@babel/helper-module-imports": "^7.0.0",
+    "@babel/types": "^7.5.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

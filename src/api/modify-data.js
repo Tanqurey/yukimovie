@@ -1,5 +1,6 @@
 import Movie from 'common/js/movie'
 import Actor from 'common/js/actor'
+import User from 'common/js/user'
 import Trailer from 'common/js/trailer'
 import {
   getImage
@@ -111,4 +112,8 @@ export function modifyMovieData(json) {
   }
 
   return new Movie(movieObj)
+}
+
+export function modifyUser(user) {
+  return new User(user)
 }
