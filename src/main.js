@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Axios from 'axios'
+import VueCookies from 'vue-cookies'
 import store from './store'
 import FastClick from 'fastclick'
 import {
@@ -28,6 +28,7 @@ import {
 } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Field).use(Swipe).use(SwipeItem).use(Lazyload).use(Grid).use(GridItem).use(Divider)
   .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast)
+Vue.use(VueCookies)
 
 Vue.config.productionTip = false
 

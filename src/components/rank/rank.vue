@@ -74,7 +74,8 @@ export default {
 @import '~common/stylus/variables.styl';
 
 .rank-container {
-  margin-top: 7rem + (54 / 20rem);
+  margin-top: 20vh;
+  // touch-action: none;
 }
 
 .fixed-box {
@@ -82,9 +83,10 @@ export default {
   top: 0;
   width: 100%;
   z-index: 99;
+  touch-action: none;
 
   .rank-header {
-    height: 7rem;
+    height: 20vh;
     background-color: $dark-primary-color;
     margin: 0 auto;
     border-bottom: 2px solid $grey-color;

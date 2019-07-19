@@ -5,8 +5,8 @@
       :left-text="leftText"
       :right-text="rightText"
       left-arrow
-      class="nav-bar"
       :fixed="true"
+      class="nav-bar"
       @click-left="clickLeft"
       @click-right="clickRight"
     />
@@ -17,7 +17,7 @@
 export default {
   props: {
     title: {
-      type: String,
+      type: String
     },
     leftText: {
       type: String
@@ -41,7 +41,7 @@ export default {
 @import '~common/stylus/variables.styl';
 
 .nav-bar {
-  top: 3.3rem;
+  top: 10vh;
 }
 
 .van-nav-bar__text, .van-nav-bar .van-icon {

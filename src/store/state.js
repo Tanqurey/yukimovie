@@ -1,5 +1,14 @@
+import {
+  getUserFromCookie
+} from 'api/store'
+
+let currentUser = getUserFromCookie() || ''
+let isLogin = currentUser !== ''
+
 const state = {
-  isLogin: false
+  isLogin: isLogin,
+  resetAccount: '',
+  currentUser: currentUser
 }
 
 export default state

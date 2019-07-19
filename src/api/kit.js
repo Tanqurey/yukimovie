@@ -20,3 +20,27 @@ export function scoreFilter(value) {
   }
   return _value
 }
+
+export function setToastTime(toast, time) {
+  toast.setDefaultOptions({
+    duration: time
+  })
+}
+
+export function jumpTo(router, path) {
+  router.push({
+    path: path
+  })
+}
+
+export function jumpToByFlag(router, pathA, pathB, flag) {
+  if (flag) {
+    router.push({
+      path: pathA
+    })
+    return
+  }
+  router.push({
+    path: pathB
+  })
+}

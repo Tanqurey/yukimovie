@@ -21,7 +21,7 @@ export default {
 .title-container {
   position: fixed;
   top: 0;
-  height: 3.3rem;
+  height: 10vh;
   width: 100%;
   background-color: $dark-primary-color;
 

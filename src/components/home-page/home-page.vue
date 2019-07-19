@@ -8,7 +8,7 @@
         <van-row>
           <van-col span="3" class="search-icon m-icon m-iconchaxun"></van-col>
           <van-col span="16" class="input-box">
-            <van-field v-model="keywords" placeholder="请输入影片关键字" />
+            <van-field v-model="keywords" placeholder="请输入影片或用户关键字" />
           </van-col>
           <van-col span="5" class="search-btn">
             <van-button plain size="mini" type="primary">搜索</van-button>
@@ -51,8 +51,8 @@
             <p class="nav-text">影评</p>
           </van-grid-item>
           <van-grid-item>
-            <p class="nav-icon m-icon m-icondiqiu"></p>
-            <p class="nav-text">经典</p>
+            <p class="nav-icon m-icon m-iconguanzhu"></p>
+            <p class="nav-text">关注</p>
           </van-grid-item>
         </van-grid>
       </div>
@@ -65,6 +65,8 @@ import { getPlayingMovies } from 'api/home'
 import { modifyMovieData } from 'api/modify-data'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { mapGetters } from 'vuex'
+import { jumpTo, jumpToByFlag } from 'api/kit'
 
 export default {
   created() {
@@ -101,15 +103,14 @@ export default {
       })
     },
     jumpToRank() {
-      this.$router.push({
-        path: '/rank'
-      })
+      jumpTo(this.$router, '/rank')
     },
     jumpToCenter() {
-      this.$router.push({
-        path: '/user/login'
-      })
+      jumpToByFlag(this.$router,'/userCenter','/user/login',this.isLogin)
     }
+  },
+  computed: {
+    ...mapGetters(['isLogin'])
   },
   components: {
     swiper,
@@ -131,14 +132,14 @@ export default {
     background-color: $dark-primary-color;
 
     img {
-      height: 4rem;
+      height: 10vh;
     }
   }
 
   .search-bar {
-    height: 2.2rem;
+    height: 6vh;
     background-color: $dark-primary-color;
-    line-height: 2.2rem;
+    line-height: 6vh;
     text-align: center;
 
     .search-icon {
@@ -147,7 +148,7 @@ export default {
 
     .input-box {
       font-size: $font-size-small;
-      height: 2.2rem;
+      height: 6vh;
       position: relative;
 
       div {
@@ -170,20 +171,20 @@ export default {
 
 .nowplaying {
   margin: 0 auto;
-  margin-top: 6.8rem;
+  margin-top: 18vh;
 
   .van-divider {
     font-size: $font-size-small;
   }
 
   .nowplaying-body {
-    height: 13rem;
+    height: 36vh;
     width: 100%;
     background-color: $grey-color;
     margin-top: 0.4rem;
 
     .swiper-container {
-      height: 13rem;
+      height: 36vh;
 
       .swiper-scrollbar-drag {
         background-color: red !important;
@@ -197,7 +198,7 @@ export default {
       margin-top: 1rem;
 
       img {
-        height: 9rem;
+        height: 25vh;
       }
 
       .item-title, .item-score {
@@ -217,7 +218,7 @@ export default {
 }
 
 .nav-container {
-  height: 8rem;
+  height: 24vh;
   margin: 0 auto;
   margin-top: 0.5rem;
 

@@ -6,7 +6,6 @@
     <div class="menu-container" @click="toggleMenu">
       <p class="menu m-icon m-iconcaidan"></p>
     </div>
-    <m-footer />
     <van-popup v-model="showMenu" position="bottom" :style="{ height: '20%' }">
       <ul class="menu-ul">
         <li class="menu-li" @click="returnHome">
@@ -23,7 +22,8 @@
 </template>
 
 <script>
-import MFooter from 'base/m-footer/m-footer'
+import { mapGetters } from 'vuex'
+import { jumpTo, jumpToByFlag } from 'api/kit'
 export default {
   name: 'App',
   data() {
@@ -33,24 +33,21 @@ export default {
   },
   methods: {
     returnHome() {
-      this.$router.push({
-        path: '/'
-      })
+      jumpTo(this.$router, '/')
       this.showMenu = false
     },
     toggleMenu() {
       this.showMenu = true
     },
     jumpToCenter() {
-      this.$router.push({
-        path: '/user/login'
-      })
+      jumpToByFlag(this.$router, '/userCenter', '/user/login', this.isLogin)
       this.showMenu = false
     }
   },
-  components: {
-    MFooter
-  }
+  computed: {
+    ...mapGetters(['isLogin'])
+  },
+  components: {}
 }
 </script>
 <style lang="stylus" scoped>
@@ -58,13 +55,13 @@ export default {
 @import '~common/stylus/variables.styl';
 
 .menu-container {
-  height: 2rem;
-  width: 2rem;
+  height: 5vh;
+  width: 5vh;
   border-radius: 50%;
   z-index: 999;
   background-color: $white-text;
   position: fixed;
-  top: 0.6rem;
+  top: 2.5vh;
   right: 0.6rem;
 
   .menu {
@@ -109,10 +106,6 @@ export default {
       transform: translate(-50%, -50%);
     }
   }
-}
-
-* {
-  touch-action: none;
 }
 </style>
 

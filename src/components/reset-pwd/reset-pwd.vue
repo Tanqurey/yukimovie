@@ -12,31 +12,29 @@
     </div>
     <div class="reset-body">
       <van-field
-        v-model="userName"
+        v-model="newPassword"
         required
         clearable
-        label="用户名"
+        label="新密码"
         icon="clear"
-        placeholder="请输入您注册的用户名"
-        @click-icon="userName=''"
+        placeholder="请输入新密码,长度6-12位"
+        type="password"
+        @click-icon="newPassword=''"
         class="input-field"
         :label-width="labelWidth"
-      >
-        <van-button
-          slot="button"
-          size="mini"
-          type="primary"
-          class="check-btn"
-          @click="_getSecureQuestion(userName)"
-        >获取密保</van-button>
-      </van-field>
-
+      />
       <van-field
-        v-model="secureQuestion"
-        label="安全问题"
-        disabled
+        v-model="repeatPassword"
+        required
+        clearable
+        label="确认密码"
+        icon="clear"
+        placeholder="请再次输入密码"
+        type="password"
+        @click-icon="repeatPassword=''"
         class="input-field"
-        v-show="secureQuestion"
+        @input="repeatingPassword"
+        :error-message="errorMsg"
         :label-width="labelWidth"
       />
     </div>
@@ -44,66 +42,88 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+import { setToastTime } from 'api/kit'
+import { resetPassword } from 'api/login'
+import { SERVER_ERR_NOTICE } from 'common/js/config'
 import MHeader from 'base/m-header/m-header'
 import MNavBar from 'base/m-nav-bar/m-nav-bar'
-import { getSecureQuestion } from 'api/login'
+import { jumpTo } from 'api/kit'
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (!vm.resetAccount) {
+        jumpTo(vm.$router, '/user/preReset')
+      }
+    })
+  },
   data() {
     return {
-      userName: '',
       title: '密码重置',
-      leftText: '返回登录',
+      navTitle: '密码填写',
       rightText: '重置',
-      navTitle: '填写信息',
-      secureQuestion: '',
-      labelWidth:60
+      leftText: '返回登录',
+      newPassword: '',
+      repeatPassword: '',
+      errorMsg: '',
+      labelWidth: 60
     }
   },
   methods: {
     returnLogin() {
-      this.$router.push({
-        path: '/user/login'
-      })
+      jumpTo(this.$router, '/user/login')
     },
-    _getSecureQuestion(userName) {
-      if (userName.length < 3 || userName.length > 12) {
-        this.$toast.fail('请输入有效的用户名')
-        this.secureQuestion = ''
+    repeatingPassword() {
+      if (this.newPassword !== this.repeatPassword) {
+        this.errorMsg = '两次输入的密码不一致，请重新输入'
+      } else {
+        this.errorMsg = ''
+      }
+    },
+    _resetPassword() {
+      if (this.newPassword.length < 6 || this.newPassword.length > 12) {
+        this.$toast.fail('密码长度不符合要求')
+        return
+      } else if (this.newPassword !== this.repeatPassword) {
+        this.$toast.fail('两次输入的密码不一致')
         return
       }
-      getSecureQuestion(userName).then(res => {
+      setToastTime(this.$toast, 0)
+      this.$toast.loading({
+        mask: true,
+        message: '正在重置...'
+      })
+      resetPassword(this.resetAccount, this.newPassword).then(res => {
+        setToastTime(this.$toast, 2000)
         if (res.data.code === 200) {
-          if (!res.data.isExisted) {
-            this.$toast.fail('用户不存在')
-            this.secureQuestion = ''
-            return
-          }
-          this.secureQuestion = res.data.secureQuestion
+          this.$toast.success('重置成功，返回登录')
+          this.returnLogin()
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
         }
       })
     },
-    _resetPassword() {
-      console.log('reset')
-    }
+    ...mapMutations({
+      setResetAccount: 'SET_RESET_ACCOUNT'
+    })
+  },
+  computed: {
+    ...mapGetters(['resetAccount'])
   },
   components: {
     MHeader,
     MNavBar
+  },
+  beforeRouteLeave(to, from, next) {
+    this.setResetAccount('')
+    next()
   }
 }
 </script>
 
 <style lang="stylus" scoped>
 @import '~common/stylus/variables.styl';
-
-.reset-header {
-  height: 3.8 + (44 / 20rem);
-}
-
-.nav-bar {
-  top: 3.3rem;
-}
 
 .van-nav-bar__text {
   color: $light-primary-color;
@@ -122,15 +142,11 @@ export default {
 
 .reset-body {
   position: relative;
-  height: 27rem;
+  top: $vant-nav-bar-height;
+  margin-top: 10vh;
 
   .input-field {
     font-size: $font-size-mini;
-  }
-
-  .check-btn {
-    background-color: $light-primary-color;
-    border: none;
   }
 }
 </style>
