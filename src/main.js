@@ -24,10 +24,11 @@ import {
   Loading,
   Popup,
   NavBar,
-  Toast
+  Toast,
+  Progress
 } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Field).use(Swipe).use(SwipeItem).use(Lazyload).use(Grid).use(GridItem).use(Divider)
-  .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast)
+  .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast).use(Progress)
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false

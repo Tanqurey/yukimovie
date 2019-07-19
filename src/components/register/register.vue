@@ -210,7 +210,7 @@ export default {
 .register-body {
   position: relative;
   top: $vant-nav-bar-height;
-  margin-top: 10vh;
+  margin-top: $m-header-height;
 
   .input-field {
     font-size: $font-size-mini;

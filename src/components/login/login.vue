@@ -75,7 +75,8 @@ export default {
             return
           }
           this.$toast.success('登录成功，正在跳转')
-          this.onLine({ userName: this.userName })
+          console.log(res.data.currentUser)
+          this.onLine(res.data.currentUser)
           jumpTo(this.$router, '/userCenter')
         } else {
           setToastTime(this.$toast, 2000)

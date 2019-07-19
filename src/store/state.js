@@ -2,8 +2,8 @@ import {
   getUserFromCookie
 } from 'api/store'
 
-let currentUser = getUserFromCookie() || ''
-let isLogin = currentUser !== ''
+let currentUser = getUserFromCookie()
+let isLogin = currentUser !== null
 
 const state = {
   isLogin: isLogin,

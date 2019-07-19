@@ -62,7 +62,7 @@ export default {
   background-color: $white-text;
   position: fixed;
   top: 2.5vh;
-  right: 0.6rem;
+  right: 3vw;
 
   .menu {
     color: $dark-primary-color;

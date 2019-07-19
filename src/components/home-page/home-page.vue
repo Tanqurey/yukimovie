@@ -106,7 +106,7 @@ export default {
       jumpTo(this.$router, '/rank')
     },
     jumpToCenter() {
-      jumpToByFlag(this.$router,'/userCenter','/user/login',this.isLogin)
+      jumpToByFlag(this.$router, '/userCenter', '/user/login', this.isLogin)
     }
   },
   computed: {
@@ -178,17 +178,13 @@ export default {
   }
 
   .nowplaying-body {
-    height: 36vh;
+    height: 34vh;
     width: 100%;
     background-color: $grey-color;
     margin-top: 0.4rem;
 
     .swiper-container {
-      height: 36vh;
-
-      .swiper-scrollbar-drag {
-        background-color: red !important;
-      }
+      height: 34vh;
     }
 
     .nowplaying-item {
@@ -198,7 +194,7 @@ export default {
       margin-top: 1rem;
 
       img {
-        height: 25vh;
+        height: 24vh;
       }
 
       .item-title, .item-score {

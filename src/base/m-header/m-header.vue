@@ -29,7 +29,7 @@ export default {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    left: 0.6rem;
+    left: 3vw;
     color: $grey-color;
     font-size: $font-size-mid;
   }
