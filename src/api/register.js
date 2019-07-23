@@ -1,10 +1,8 @@
 import axios from 'axios'
 import {
-  localUrl
+  registerUrl,
+  checkNameUrl
 } from 'common/js/config'
-
-const registerUrl = localUrl + 'user/register'
-const checkNameUrl = localUrl + 'user/checkName'
 
 // 使用post方法进行用户注册
 export function userRegister(user) {

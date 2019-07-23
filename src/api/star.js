@@ -1,12 +1,11 @@
 import axios from 'axios'
 import {
   apikey,
-  doubanPrefix,
-  rankMap
+  starDetailUrl
 } from 'common/js/config'
 
-export default function getRankData(index) {
-  return axios.get(doubanPrefix + rankMap[index], {
+export function getStarDetail(id) {
+  return axios.get(starDetailUrl + id, {
     params: {
       apikey: apikey,
     }

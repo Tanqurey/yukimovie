@@ -1,12 +1,11 @@
 import axios from 'axios'
 import {
   apikey,
-  doubanPrefix,
-  rankMap
+  movieDetailUrl
 } from 'common/js/config'
 
-export default function getRankData(index) {
-  return axios.get(doubanPrefix + rankMap[index], {
+export function getMovieDetail(id) {
+  return axios.get(movieDetailUrl + id, {
     params: {
       apikey: apikey,
     }

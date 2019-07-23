@@ -4,9 +4,9 @@
     <div class="center-body">
       <div class="center-header">
         <van-row class="header-name">
-          <van-col span="18" class="name">{{currentUser.userName}}</van-col>
+          <van-col span="18" class="name">{{user.userName}}</van-col>
           <van-col span="6" class="level">
-            <van-button disabled type="primary" size="mini">{{'Lv '+currentUser.level}}</van-button>
+            <van-button disabled type="primary" size="mini">{{'Lv '+user.level}}</van-button>
           </van-col>
         </van-row>
         <van-row class="exp-bar">
@@ -15,32 +15,48 @@
             <van-progress :color="lightPrimaryColor" :percentage="expProcess" :show-pivot="false" />
           </van-col>
           <van-col span="10" class="exp-val">
-            <span class="now-exp">{{currentUser.exp}}</span>
+            <span class="now-exp">{{user.exp}}</span>
             <span class="next-exp">{{' / '+nextLevelExp}}</span>
           </van-col>
         </van-row>
         <van-row class="whatsup">
-          <van-col span="23" class="whatsup">{{currentUser.whatsUp}}</van-col>
+          <van-col span="23" class="whatsup">{{user.whatsUp}}</van-col>
         </van-row>
       </div>
       <div class="center-count">
         <van-grid :column-num="2" square :border="false" class="count-body">
           <van-grid-item>
-            <p class="count">{{currentUser.fansCount}}</p>
+            <p class="count">{{user.fansCount>maxDisplayNum?'99+':user.fansCount}}</p>
             <p class="count-title">我的粉丝</p>
           </van-grid-item>
           <van-grid-item>
-            <p class="count">{{currentUser.subscribeCount}}</p>
+            <p class="count">{{user.subscribeCount>maxDisplayNum?'99+':user.subscribeCount}}</p>
             <p class="count-title">我的关注</p>
           </van-grid-item>
         </van-grid>
       </div>
       <div class="center-function">
         <ul class="function-body">
-          <li class="function-item">1</li>
-          <li class="function-item">1</li>
-          <li class="function-item">1</li>
-          <li class="function-item">1</li>
+          <li class="function-item">
+            <span class="m-icon m-iconshoucang"></span>
+            <span class="function-title">我的收藏</span>
+          </li>
+          <li class="function-item">
+            <span class="m-icon m-iconxiaoxi"></span>
+            <span class="function-title">我的影评</span>
+          </li>
+          <li class="function-item">
+            <span class="m-icon m-icontupian"></span>
+            <span class="function-title">我的动态</span>
+          </li>
+          <li class="function-item">
+            <span class="m-icon m-iconshezhi"></span>
+            <span class="function-title">设置</span>
+          </li>
+          <li class="function-item" @click="_offLine">
+            <span class="m-icon m-iconshangyitiao"></span>
+            <span class="function-title">退出账号</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -48,8 +64,8 @@
 </template>
 
 <script>
-import { jumpTo } from 'api/kit'
-import { mapGetters } from 'vuex'
+import { jumpTo, setToastTime } from 'api/kit'
+import { mapGetters, mapActions } from 'vuex'
 import MHeader from 'base/m-header/m-header'
 import { levelExp } from 'common/js/user'
 import { LIGHT_PRIMARY_COLOR } from 'common/js/style'
@@ -65,15 +81,27 @@ export default {
   data() {
     return {
       title: '个人中心',
-      lightPrimaryColor: LIGHT_PRIMARY_COLOR
+      lightPrimaryColor: LIGHT_PRIMARY_COLOR,
+      maxDisplayNum: 99
     }
+  },
+  methods: {
+    _offLine() {
+      this.offLine()
+      this.$toast.success('已退出当前用户')
+      jumpTo(this.$router, '/user/login')
+    },
+    ...mapActions(['offLine'])
   },
   computed: {
     nextLevelExp() {
-      return levelExp['LEVEL_' + (this.currentUser.level + 1) + '_EXP']
+      return levelExp['LEVEL_' + (this.user.level + 1) + '_EXP']
     },
     expProcess() {
-      return (this.currentUser.exp / this.nextLevelExp) * 100
+      return (this.user.exp / this.nextLevelExp) * 100 || 0
+    },
+    user() {
+      return this.currentUser === null ? {} : this.currentUser
     },
     ...mapGetters(['isLogin', 'currentUser'])
   },
@@ -172,6 +200,27 @@ export default {
       position: relative;
       left: 10vw;
       width: 80vw;
+      border-top: 2px solid $dark-primary-color;
+      border-bottom: 2px solid $dark-primary-color;
+
+      .function-item {
+        height: 6.5vh;
+        line-height: 6.5vh;
+
+        .m-icon {
+          color: $light-primary-color;
+          margin-left: 2vw;
+        }
+
+        .function-title {
+          font-size: $font-size-small;
+          margin-left: 2vw;
+        }
+      }
+
+      .function-item:nth-child(odd) {
+        background-color: $grey-color;
+      }
     }
   }
 }

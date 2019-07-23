@@ -62,6 +62,7 @@ import MNavBar from 'base/m-nav-bar/m-nav-bar'
 import { mapMutations } from 'vuex'
 import { setToastTime, jumpTo } from 'api/kit'
 import { getSecureQuestion, checkAnswer } from 'api/login'
+import { ERR_OK } from 'common/js/config'
 
 export default {
   data() {
@@ -96,7 +97,7 @@ export default {
       this.isLoadingQuestion = true
       this.secureAnswer = ''
       getSecureQuestion(userName).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code === ERR_OK) {
           if (!res.data.isExisted) {
             this.$toast.fail('用户不存在')
             this.userName = ''
@@ -127,7 +128,7 @@ export default {
         message: '正在校验...'
       })
       checkAnswer(this.userName, this.secureAnswer).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code === ERR_OK) {
           setToastTime(this.$toast, 1500)
           if (!res.data.isMatch) {
             this.$toast.fail('回答错误')

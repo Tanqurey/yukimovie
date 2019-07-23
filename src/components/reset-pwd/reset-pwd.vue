@@ -49,6 +49,7 @@ import { SERVER_ERR_NOTICE } from 'common/js/config'
 import MHeader from 'base/m-header/m-header'
 import MNavBar from 'base/m-nav-bar/m-nav-bar'
 import { jumpTo } from 'api/kit'
+import { ERR_OK } from 'common/js/config'
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -96,7 +97,7 @@ export default {
       })
       resetPassword(this.resetAccount, this.newPassword).then(res => {
         setToastTime(this.$toast, 2000)
-        if (res.data.code === 200) {
+        if (res.data.code === ERR_OK) {
           this.$toast.success('重置成功，返回登录')
           this.returnLogin()
         } else {

@@ -1,19 +1,18 @@
 import axios from 'axios'
 import {
-  localUrl
+  loginUrl,
+  secureQuestionUrl,
+  resetPasswordUrl,
+  checkAnswerUrl
 } from 'common/js/config'
 
-const loginUrl = localUrl + 'user/login'
-const secureQuestionUrl = localUrl + 'user/secureQuestion'
-const checkAnswerUrl = localUrl + 'user/checkAnswer'
-const resetPasswordUrl = localUrl + 'user/resetPassword'
-
 // 使用post方法进行用户登录
-export function userLogin(userName, password) {
+export function userLogin(userName, password, isQuickLogin) {
   return axios.post(loginUrl, {
     params: {
       userName: userName,
       password: password,
+      isQuickLogin: isQuickLogin || false
     }
   })
 }

@@ -1,42 +1,42 @@
 <template>
   <div class="rank-container">
-    <div class="fixed-box">
-      <div class="rank-header">
-        <p class="header-text">{{rankName[activeIndex]}}</p>
+    <div class="rank-header">
+      <div class="header-title">
+        <p class="rank-title">{{currentTitle}}</p>
       </div>
-      <div class="nav-container">
-        <van-tabs v-model="activeIndex" :color="'#8BC34A'" :title-active-color="'#8BC34A'">
-          <van-tab
-            v-for="(item,idx) in rankName"
-            :key="idx"
-            :title="item"
-            :disabled="isLoading&&idx===activeIndex"
-          ></van-tab>
+      <div class="header-tabs">
+        <van-tabs v-model="activeIndex" :color="activeColor">
+          <van-tab v-for="(item,idx) in rankName" :key="idx" :title="item" :disabled="isLoading"></van-tab>
         </van-tabs>
       </div>
     </div>
     <m-loading v-if="isLoading" />
     <div class="rank-content">
-      <rank-list :dataList="rankList" />
+      <rank-list :dataList="rankList" @selected="jumpToDetail" />
     </div>
   </div>
 </template>
 
 <script>
 import getRankData from 'api/rank'
+import { mapMutations } from 'vuex'
 import RankList from 'components/rank-list/rank-list'
 import MLoading from 'base/m-loading/m-loading'
 import { modifyMovieData } from 'api/modify-data'
+import Movie from 'common/js/movie'
+import { jumpTo } from 'api/kit'
+
 export default {
   created() {
     this._getRankData(0)
   },
   data() {
     return {
-      activeIndex: null,
+      activeIndex: 0,
       rankName: ['北美票房榜', '全球新片榜', '本周口碑榜'],
       rankList: [],
-      isLoading: true
+      isLoading: true,
+      activeColor: '#8BC34A'
     }
   },
   methods: {
@@ -54,12 +54,24 @@ export default {
           this.isLoading = false
         }
       })
-    }
+    },
+    jumpToDetail(movie) {
+      this.setCurrentMovie(new Movie(movie))
+      jumpTo(this.$router, '/movieDetail')
+    },
+    ...mapMutations({
+      setCurrentMovie: 'SET_CURRENT_MOVIE'
+    })
   },
   watch: {
     activeIndex(newIndex) {
       this.activeIndex = newIndex
       this._getRankData(newIndex)
+    }
+  },
+  computed: {
+    currentTitle() {
+      return this.rankName[this.activeIndex]
     }
   },
   components: {
@@ -73,40 +85,32 @@ export default {
 @import '~common/stylus/reset.styl';
 @import '~common/stylus/variables.styl';
 
-.rank-container {
-  margin-top: 20vh;
-  // touch-action: none;
+.rank-header {
+  height: 20vh;
+  width: 100vw;
+  background-color: $dark-primary-color;
+  position: relative;
+
+  .rank-title {
+    color: $white-text;
+    text-align: center;
+    font-size: $font-size-big;
+    position: absolute;
+    bottom: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 1px solid $grey-color;
+  }
+
+  .header-tabs {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: $vant-nav-bar-height;
+  }
 }
 
-.fixed-box {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 99;
-  touch-action: none;
-
-  .rank-header {
-    height: 20vh;
-    background-color: $dark-primary-color;
-    margin: 0 auto;
-    border-bottom: 2px solid $grey-color;
-
-    .header-text {
-      font-size: $font-size-title;
-      width: 12rem;
-      text-align: center;
-      position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      color: $white-text;
-      border-bottom: 2px solid $primary-color;
-    }
-
-    .nav-container {
-      width: 100%;
-      margin: 0 auto;
-    }
-  }
+.rank-content {
+  height: 80vh;
 }
 </style>

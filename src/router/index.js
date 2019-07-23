@@ -7,6 +7,8 @@ import Register from 'components/register/register'
 import PreReset from 'components/pre-reset/pre-reset'
 import ResetPwd from 'components/reset-pwd/reset-pwd'
 import UserCenter from 'components/user-center/user-center'
+import MovieDetail from 'components/movie-detail/movie-detail'
+import StarDetail from 'components/star-detail/star-detail'
 
 Vue.use(Router)
 
@@ -37,6 +39,14 @@ export default new Router({
     {
       path: '/userCenter',
       component: UserCenter
+    },
+    {
+      path: '/movieDetail',
+      component: MovieDetail
+    },
+    {
+      path: '/starDetail',
+      component: StarDetail
     }
 
   ],

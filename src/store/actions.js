@@ -13,13 +13,11 @@ export const onLine = function ({
   },
   user
 ) {
-  console.log(user)
   let currentUser = new User(user)
-  commit(types.SET_LOGIN_STATUS, true)
   commit(types.SET_CURRENT_USER, currentUser)
   window.$cookies.set(
     CURRENT_USER_KEY,
-    JSON.stringify(currentUser),
+    currentUser.userName,
     CURRENT_USER_EXPIRES_TIME
   )
 }
@@ -28,7 +26,6 @@ export const offLine = function ({
   commit,
   state
 }) {
-  commit(types.SET_LOGIN_STATUS, false)
   commit(types.SET_CURRENT_USER, null)
   window.$cookies.remove(
     CURRENT_USER_KEY

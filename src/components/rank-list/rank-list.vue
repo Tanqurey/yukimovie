@@ -2,7 +2,7 @@
   <swiper class="swiper-container" :options="swiperOption">
     <swiper-slide class="swiper-body">
       <ul>
-        <li v-for="(item,idx) in dataList" :key="idx" class="best-li">
+        <li v-for="(item,idx) in dataList" :key="idx" class="best-li" @click="selected(item)">
           <img v-lazy="item.imageUrl" alt />
           <p class="best-movie-title">{{item.title}}</p>
           <p class="best-movie-score">综合评分：{{item.score|scoreFilter}}</p>
@@ -18,6 +18,7 @@
 <script>
 import { scoreFilter } from 'api/kit'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { DEFAULT_SWIPER_OPTIONS } from 'common/js/config'
 
 export default {
   props: {
@@ -28,18 +29,16 @@ export default {
   },
   data() {
     return {
-      swiperOption: {
-        direction: 'vertical',
-        slidesPerView: 'auto',
-        freeMode: true,
-        mousewheel: true,
-        observer: true,
-        observeParents: true
-      }
+      swiperOption: DEFAULT_SWIPER_OPTIONS
     }
   },
   filters: {
     scoreFilter: scoreFilter
+  },
+  methods: {
+    selected(movie) {
+      this.$emit('selected',movie)
+    }
   },
   components: {
     swiper,
@@ -53,7 +52,7 @@ export default {
 @import '~common/stylus/variables.styl';
 
 .swiper-container {
-  height: 80vh;
+  height: 100%;
   touch-action: none;
 
   .swiper-body {

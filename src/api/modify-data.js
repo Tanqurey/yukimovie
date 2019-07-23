@@ -1,7 +1,6 @@
 import Movie from 'common/js/movie'
-import Actor from 'common/js/actor'
-import User from 'common/js/user'
-import Trailer from 'common/js/trailer'
+import Star from 'common/js/star'
+
 import {
   getImage
 } from 'api/kit'
@@ -30,9 +29,10 @@ export function modifyMovieData(json) {
     json.casts.forEach(item => {
       let actor = {}
       actor.name = item.name
+      actor.id = item.id
       actor.name_en = item.name_en
-      actor.avatar = getImage(item.avatars.large)
-      actors.push(new Actor(actor))
+      actor.avatar = item.avatars === null ? 'common/images/default-avatar.jpg' : getImage(item.avatars.large)
+      actors.push(new Star(actor))
     })
     movieObj.actors = actors
   } else {
@@ -47,12 +47,13 @@ export function modifyMovieData(json) {
 
   if (json.directors) {
     let directors = []
-    json.casts.forEach(item => {
+    json.directors.forEach(item => {
       let director = {}
       director.name = item.name
+      director.id = item.id
       director.name_en = item.name_en
-      director.avatar = getImage(item.avatars.large)
-      directors.push(new Actor(director))
+      director.avatar = item.avatars === null ? 'common/images/default-avatar.jpg' : getImage(item.avatars.large)
+      directors.push(new Star(director))
     })
     movieObj.directors = directors
   } else {
@@ -66,9 +67,9 @@ export function modifyMovieData(json) {
   }
 
   if (json.languages) {
-    movieObj.languages = concatStringFromArray(json.languages)
+    movieObj.language = concatStringFromArray(json.languages)
   } else {
-    movieObj.languages = ''
+    movieObj.language = ''
   }
 
   if (json.photos) {
@@ -77,7 +78,7 @@ export function modifyMovieData(json) {
       let photo = getImage(item.thumb)
       photos.push(photo)
     })
-    movieObj.photos = photo
+    movieObj.photos = photos
   } else {
     movieObj.photos = null
   }
@@ -114,6 +115,37 @@ export function modifyMovieData(json) {
   return new Movie(movieObj)
 }
 
-export function modifyUser(user) {
-  return new User(user)
+
+export function modifyStar(json) {
+  let star = {}
+  star.name = json.name
+  star.avatar = getImage(json.avatars.large)
+  star.name_en = json.name_en
+  star.introduction = json.summary
+  star.id = json.id
+  star.birthday = json.birthday
+  star.bornPlace = json.born_place
+
+  if (json.photos) {
+    let photos = []
+    json.photos.forEach(item => {
+      let photo = getImage(item.thumb)
+      photos.push(photo)
+    })
+    star.photos = photos
+  } else {
+    star.photos = null
+  }
+
+  if (json.works) {
+    let artworks = []
+    json.works.forEach(item => {
+      artworks.push(modifyMovieData(item.subject))
+    })
+    star.artworks = artworks
+  } else {
+    star.artworks = null
+  }
+
+  return new Star(star)
 }

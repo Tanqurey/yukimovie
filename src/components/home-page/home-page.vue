@@ -20,14 +20,17 @@
       <van-divider :style="dividerStyle">————&nbsp;&nbsp;院线热映&nbsp;&nbsp;————</van-divider>
       <div class="nowplaying-body">
         <swiper :options="swiperOptions">
-          <swiper-slide v-for="(item,idx) in nowPlayingArr" :key="idx">
+          <swiper-slide
+            v-for="(item,idx) in nowPlayingArr"
+            :key="idx"
+            @click.native="jumpToDetail(item)"
+          >
             <div class="nowplaying-item">
               <img v-lazy="item.imageUrl" />
               <p class="item-title">{{item.title}}</p>
               <p class="item-score">{{item.score||'暂无评分'}}</p>
             </div>
           </swiper-slide>
-          <div class="swiper-scrollbar" slot="scrollbar"></div>
         </swiper>
       </div>
     </div>
@@ -64,9 +67,11 @@
 import { getPlayingMovies } from 'api/home'
 import { modifyMovieData } from 'api/modify-data'
 import 'swiper/dist/css/swiper.css'
+import Movie from 'common/js/movie'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { jumpTo, jumpToByFlag } from 'api/kit'
+import { ERR_OK } from 'common/js/config'
 
 export default {
   created() {
@@ -80,19 +85,14 @@ export default {
         color: '#8BC34A'
       },
       swiperOptions: {
-        slidesPerView: 3,
-        scrollbar: {
-          el: '.swiper-scrollbar',
-          draggable: true,
-          hide: true
-        }
+        slidesPerView: 3
       }
     }
   },
   methods: {
     _getPlayingMovies() {
       getPlayingMovies().then(res => {
-        if (res.status === 200) {
+        if (res.status === ERR_OK) {
           let nowPlayingArr = []
           let dataArr = res.data.entries.slice(0, 9)
           dataArr.forEach(item => {
@@ -107,7 +107,14 @@ export default {
     },
     jumpToCenter() {
       jumpToByFlag(this.$router, '/userCenter', '/user/login', this.isLogin)
-    }
+    },
+    jumpToDetail(movie) {
+      this.setCurrentMovie(new Movie(movie))
+      jumpTo(this.$router, '/movieDetail')
+    },
+    ...mapMutations({
+      setCurrentMovie: 'SET_CURRENT_MOVIE'
+    })
   },
   computed: {
     ...mapGetters(['isLogin'])
@@ -172,6 +179,7 @@ export default {
 .nowplaying {
   margin: 0 auto;
   margin-top: 18vh;
+  touch-action: none;
 
   .van-divider {
     font-size: $font-size-small;

@@ -1,4 +1,5 @@
 export function concatStringFromArray(arr) {
+  if (!arr) return
   let ret = ''
   arr.forEach((item) => {
     ret += (item + '/')

@@ -14,8 +14,7 @@ export default class Movie {
     tags,
     score,
     introduction,
-    year,
-    collect,
+    year
   }) {
     this.title = title,
       this.id = id,
@@ -31,8 +30,7 @@ export default class Movie {
       this.tags = tags,
       this.score = score,
       this.introduction = introduction,
-      this.year = year,
-      this.collect = collect;
+      this.year = year
   }
 
 }

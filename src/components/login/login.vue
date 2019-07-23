@@ -26,15 +26,32 @@
 <script>
 import MHeader from 'base/m-header/m-header'
 import { userLogin } from 'api/login'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { setToastTime, jumpTo } from 'api/kit'
 import { SERVER_ERR_NOTICE } from 'common/js/config'
+import { getUserFromCookie } from 'api/store'
+import { ERR_OK } from 'common/js/config'
+
 export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (vm.isLogin) {
+      if (vm.currentUser) {
         jumpTo(vm.$router, '/userCenter')
+        return
       }
+      setToastTime(vm.$toast, 1500)
+      vm.$toast.loading({
+        mask: true,
+        message: '正在检验登录状态...'
+      })
+
+      getUserFromCookie(currentUser => {
+        if (currentUser) {
+          vm.setCurrentUser(currentUser)
+          jumpTo(vm.$router, '/userCenter')
+          return
+        }
+      })
     })
   },
   data() {
@@ -68,14 +85,14 @@ export default {
         message: '正在登录...'
       })
       userLogin(this.userName, this.password).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code === ERR_OK) {
           setToastTime(this.$toast, 1500)
           if (!res.data.isMatch) {
             this.$toast.fail('用户名或密码不正确')
             return
           }
+          this.password = ''
           this.$toast.success('登录成功，正在跳转')
-          console.log(res.data.currentUser)
           this.onLine(res.data.currentUser)
           jumpTo(this.$router, '/userCenter')
         } else {
@@ -84,10 +101,13 @@ export default {
         }
       })
     },
-    ...mapActions(['onLine'])
+    ...mapActions(['onLine']),
+    ...mapMutations({
+      setCurrentUser: 'SET_CURRENT_USER'
+    })
   },
   computed: {
-    ...mapGetters(['isLogin'])
+    ...mapGetters(['isLogin', 'currentUser'])
   }
 }
 </script>

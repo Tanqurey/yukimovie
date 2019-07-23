@@ -93,6 +93,7 @@ import MNavBar from 'base/m-nav-bar/m-nav-bar'
 import { SERVER_ERR_NOTICE } from 'common/js/config'
 import { userRegister, checkUserName, checkRegisterInfo } from 'api/register'
 import { setToastTime, jumpTo } from 'api/kit'
+import { ERR_OK } from 'common/js/config'
 
 export default {
   data() {
@@ -134,7 +135,7 @@ export default {
       if (userName.length < 3 || userName.length > 12) return
       this.isjudgingName = true
       checkUserName(userName).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code === ERR_OK) {
           this.isjudgingName = false
           if (res.data.isExisted) {
             this.nameExistedWarning = '抱歉，已存在重名用户'
@@ -161,7 +162,7 @@ export default {
       userRegister(this.user)
         .then(res => {
           setToastTime(this.$toast, 1500)
-          if (res.data.code === 200) {
+          if (res.data.code === ERR_OK) {
             this.$toast.success('注册成功,返回登录')
             const timer = setTimeout(() => {
               this.returnLogin()
@@ -209,8 +210,8 @@ export default {
 
 .register-body {
   position: relative;
-  top: $vant-nav-bar-height;
   margin-top: $m-header-height;
+  top: $vant-nav-bar-height;
 
   .input-field {
     font-size: $font-size-mini;
