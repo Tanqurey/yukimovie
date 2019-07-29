@@ -1,6 +1,6 @@
 # Yuki Movie
 
-> a vue blog
+> a vue movie app
 
 ## Build Setup
 
