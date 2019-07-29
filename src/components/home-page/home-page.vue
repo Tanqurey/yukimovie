@@ -8,10 +8,10 @@
         <van-row>
           <van-col span="3" class="search-icon m-icon m-iconchaxun"></van-col>
           <van-col span="16" class="input-box">
-            <van-field v-model="keywords" placeholder="请输入影片或用户关键字" />
+            <van-field v-model="keywords" placeholder="目前仅支持搜索用户" />
           </van-col>
           <van-col span="5" class="search-btn">
-            <van-button plain size="mini" type="primary">搜索</van-button>
+            <van-button plain size="mini" type="primary" @click="search(keywords)">搜索</van-button>
           </van-col>
         </van-row>
       </div>
@@ -112,8 +112,14 @@ export default {
       this.setCurrentMovie(new Movie(movie))
       jumpTo(this.$router, '/movieDetail')
     },
+    search(keywords) {
+      if (!keywords) return
+      this.setKeywords(keywords)
+      jumpTo(this.$router, '/searchResult')
+    },
     ...mapMutations({
-      setCurrentMovie: 'SET_CURRENT_MOVIE'
+      setCurrentMovie: 'SET_CURRENT_MOVIE',
+      setKeywords: 'SET_KEYWORDS'
     })
   },
   computed: {

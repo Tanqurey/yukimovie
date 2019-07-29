@@ -9,6 +9,8 @@ export const checkAnswerUrl = localUrl + 'user/checkAnswer'
 export const resetPasswordUrl = localUrl + 'user/resetPassword'
 export const registerUrl = localUrl + 'user/register'
 export const checkNameUrl = localUrl + 'user/checkName'
+export const searchUserUrl = localUrl + 'search/user'
+export const addToCollectionUrl = localUrl + 'collect/add'
 
 export const rankMap = ['/us_box', '/new_movies', '/weekly']
 export const movieDetailUrl = doubanPrefix + '/subject/'

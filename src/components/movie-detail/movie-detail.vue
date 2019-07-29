@@ -20,7 +20,7 @@
               <li class="info-item">时长：{{showingMovie.durations}}</li>
               <li class="info-item">上映日期：{{showingMovie.pubdate}}</li>
               <li class="info-item">国家：{{showingMovie.countries|concatArr}}</li>
-              <li class="info-item">综合评分：{{showingMovie.score}}</li>
+              <li class="info-item">综合评分：{{showingMovie.score|modifyScore}}</li>
               <li class="info-item">标签：{{showingMovie.tags}}</li>
             </ul>
           </van-col>
@@ -79,8 +79,14 @@
     </swiper>
     <m-loading v-show="isLoading" />
     <div class="function-container">
-      <div class="function m-icon m-iconshoucang"></div>
-      <div class="function m-icon m-iconxiaoxi"></div>
+      <div @click="collectMovie" class="function">
+        <p class="m-icon m-iconshoucang"></p>
+        <p class="function-text">收藏</p>
+      </div>
+      <div class="function">
+        <p class="m-icon m-iconxiaoxi"></p>
+        <p class="function-text">影评</p>
+      </div>
     </div>
   </div>
 </template>
@@ -91,9 +97,14 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import { mapGetters, mapMutations } from 'vuex'
 import { jumpTo, concatStringFromArray } from 'api/kit'
 import { getMovieDetail } from 'api/detail'
-import { ERR_OK, DEFAULT_SWIPER_OPTIONS } from 'common/js/config'
+import {
+  ERR_OK,
+  DEFAULT_SWIPER_OPTIONS,
+  SERVER_ERR_NOTICE
+} from 'common/js/config'
 import { modifyMovieData, modifyStar } from 'api/modify-data'
 import MLoading from 'base/m-loading/m-loading'
+import { addToCollection } from 'api/collect'
 
 export default {
   created() {
@@ -136,6 +147,29 @@ export default {
       this.setCurrentStar(star)
       jumpTo(this.$router, '/starDetail')
     },
+    collectMovie() {
+      if (!this.isLogin) {
+        jumpTo(this.$router, '/user/login')
+        return
+      }
+      let directorsArr = []
+      this.showingMovie.directors.forEach(item => {
+        directorsArr.push(item.name)
+      })
+
+      addToCollection(
+        this.showingMovie.id,
+        this.showingMovie.title,
+        directorsArr,
+        this.currentUser.userName
+      ).then(res => {
+        if (res.data.code === ERR_OK) {
+          this.$toast.success('收藏成功')
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
+        }
+      })
+    },
     ...mapMutations({
       setCurrentStar: 'SET_CURRENT_STAR'
     })
@@ -146,11 +180,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentMovie'])
+    ...mapGetters(['currentMovie', 'isLogin', 'currentUser'])
   },
   filters: {
     concatArr(arr) {
       return concatStringFromArray(arr)
+    },
+    modifyScore(val) {
+      if (!val) return
+      if (typeof val === 'object') {
+        return '暂无评分'
+      }
+      val = val.toString()
+      return val.padEnd(3, '.0')
     }
   },
   components: {
@@ -174,13 +216,23 @@ export default {
 
   .function {
     margin-top: 1vh;
-    height: 5vh;
-    width: 5vh;
+    height: 8vh;
+    width: 8vh;
     background-color: $dark-primary-color;
     border-radius: 50%;
     color: $white-text;
-    line-height: 5vh;
     text-align: center;
+
+    .function-text {
+      font-size: $font-size-mini;
+      position: relative;
+      top: 18%;
+    }
+
+    .m-icon {
+      position: relative;
+      top: 15%;
+    }
   }
 }
 

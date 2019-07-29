@@ -11,6 +11,9 @@ const mutations = {
   },
   [types.SET_CURRENT_STAR](state, star) {
     state.currentStar = star
+  },
+  [types.SET_KEYWORDS](state, keywords) {
+    state.keywords = keywords
   }
 }
 

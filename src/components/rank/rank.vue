@@ -65,7 +65,6 @@ export default {
   },
   watch: {
     activeIndex(newIndex) {
-      this.activeIndex = newIndex
       this._getRankData(newIndex)
     }
   },

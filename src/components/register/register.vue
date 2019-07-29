@@ -90,10 +90,9 @@
 <script>
 import MHeader from 'base/m-header/m-header'
 import MNavBar from 'base/m-nav-bar/m-nav-bar'
-import { SERVER_ERR_NOTICE } from 'common/js/config'
 import { userRegister, checkUserName, checkRegisterInfo } from 'api/register'
 import { setToastTime, jumpTo } from 'api/kit'
-import { ERR_OK } from 'common/js/config'
+import { ERR_OK, SERVER_ERR_NOTICE } from 'common/js/config'
 
 export default {
   data() {
@@ -168,6 +167,8 @@ export default {
               this.returnLogin()
               clearTimeout(timer)
             }, 2000)
+            this.user = {}
+            this.repeatPassword = ''
           } else {
             this.$toast.fail('存在重名用户或服务器异常')
           }

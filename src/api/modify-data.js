@@ -1,5 +1,6 @@
 import Movie from 'common/js/movie'
 import Star from 'common/js/star'
+import User from 'common/js/user'
 
 import {
   getImage
@@ -148,4 +149,17 @@ export function modifyStar(json) {
   }
 
   return new Star(star)
+}
+
+export function modifyUser(json) {
+  let user = {}
+  user.whatsUp = json.whatsUp
+  user.level = json.level
+  user.fansCount = json.fansCount
+  user.subscribeCount = json.subscribeCount
+  user.lastLoginTime = json.lastLoginTime
+  user.userName = json.userName
+  user.isAdmin = json.isAdmin
+
+  return new User(user)
 }

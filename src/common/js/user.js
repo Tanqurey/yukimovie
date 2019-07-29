@@ -5,14 +5,18 @@ export default class User {
     exp,
     level,
     fansCount,
-    subscribeCount
+    subscribeCount,
+    lastLoginTime,
+    isAdmin,
   }) {
     this.userName = userName
     this.whatsUp = whatsUp
     this.exp = exp
     this.level = level
-    this.fansCount = fansCount,
-      this.subscribeCount = subscribeCount
+    this.fansCount = fansCount
+    this.subscribeCount = subscribeCount
+    this.lastLoginTime = lastLoginTime
+    this.isAdmin = isAdmin
   }
 }
 

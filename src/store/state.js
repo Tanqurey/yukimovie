@@ -2,7 +2,8 @@ const state = {
   resetAccount: '',
   currentUser: null,
   currentMovie: {},
-  currentStar: {}
+  currentStar: {},
+  keywords: ''
 }
 
 export default state

@@ -9,6 +9,7 @@ import ResetPwd from 'components/reset-pwd/reset-pwd'
 import UserCenter from 'components/user-center/user-center'
 import MovieDetail from 'components/movie-detail/movie-detail'
 import StarDetail from 'components/star-detail/star-detail'
+import SearchResult from 'components/search-result/search-result'
 
 Vue.use(Router)
 
@@ -47,8 +48,11 @@ export default new Router({
     {
       path: '/starDetail',
       component: StarDetail
+    },
+    {
+      path: '/searchResult',
+      component: SearchResult
     }
-
   ],
 
 })

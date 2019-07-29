@@ -24,11 +24,18 @@
         </div>
         <div class="introduction-container">
           <p class="introduction-title">个人简介 / Introduction</p>
-          <swiper class="introduction-swiper" :options="defaultOptions">
+          <swiper
+            class="introduction-swiper"
+            :options="defaultOptions"
+            v-if="showingStar.introduction"
+          >
             <swiper-slide class="introduction-body">
               <div class="text">{{showingStar.introduction}}</div>
             </swiper-slide>
           </swiper>
+          <div class="no-data-layer" v-else>
+            <p>暂无数据</p>
+          </div>
         </div>
         <div class="photos-container">
           <p class="photos-title">相册 / Photos</p>
@@ -276,6 +283,15 @@ export default {
         color: $dark-primary-color;
         margin-left: 3vw;
         margin-bottom: 1vh;
+      }
+
+      .no-data-layer {
+        background-color: $grey-color;
+        height: 24vh;
+        line-height: 24vh;
+        text-align: center;
+        color: $secondary-text;
+        font-size: $font-size-mini;
       }
 
       .introduction-swiper {
