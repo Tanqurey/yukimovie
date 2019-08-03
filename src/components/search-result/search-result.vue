@@ -39,6 +39,14 @@ export default {
     }
     this._searchUser(this.keywords)
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (!vm.keywords) {
+        jumpTo(vm.$router, '/')
+        return
+      }
+    })
+  },
   data() {
     return {
       title: '检索结果',
@@ -117,8 +125,8 @@ export default {
 
     .result-item {
       font-size: $font-size-mid;
-      height: 5vh;
-      line-height: 5vh;
+      height: 6vh;
+      line-height: 6vh;
 
       .tag {
         padding: 0 1vw;

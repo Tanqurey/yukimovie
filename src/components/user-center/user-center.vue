@@ -37,7 +37,7 @@
       </div>
       <div class="center-function">
         <ul class="function-body">
-          <li class="function-item">
+          <li class="function-item" @click="jumpToCollection">
             <span class="m-icon m-iconshoucang"></span>
             <span class="function-title">我的收藏</span>
           </li>
@@ -90,6 +90,9 @@ export default {
       this.offLine()
       this.$toast.success('已退出当前用户')
       jumpTo(this.$router, '/user/login')
+    },
+    jumpToCollection(){
+      jumpTo(this.$router,'/user/collection')
     },
     ...mapActions(['offLine'])
   },

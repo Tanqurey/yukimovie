@@ -10,6 +10,9 @@ import UserCenter from 'components/user-center/user-center'
 import MovieDetail from 'components/movie-detail/movie-detail'
 import StarDetail from 'components/star-detail/star-detail'
 import SearchResult from 'components/search-result/search-result'
+import MovieComment from 'components/movie-comment/movie-comment'
+import NewComment from 'components/new-comment/new-comment'
+import UserCollection from 'components/user-collection/user-collection'
 
 Vue.use(Router)
 
@@ -52,7 +55,20 @@ export default new Router({
     {
       path: '/searchResult',
       component: SearchResult
+    },
+    {
+      path: '/movieComment',
+      component: MovieComment
+    },
+    {
+      path: '/newComment',
+      component: NewComment
+    },
+    {
+      path: '/user/collection',
+      component: UserCollection
     }
+
   ],
 
 })

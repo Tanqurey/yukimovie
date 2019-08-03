@@ -22,15 +22,17 @@ import {
   Tab,
   Tabs,
   Loading,
+  List,
   Popup,
   NavBar,
   Toast,
   Progress,
-  Pagination
+  Pagination,
+  Rate
 } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Field).use(Swipe).use(SwipeItem).use(Lazyload).use(Grid).use(GridItem).use(Divider)
   .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast).use(Progress)
-  .use(VueCookies).use(Pagination)
+  .use(VueCookies).use(Pagination).use(Rate).use(List)
 
 Vue.config.productionTip = false
 

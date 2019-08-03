@@ -80,10 +80,10 @@
     <m-loading v-show="isLoading" />
     <div class="function-container">
       <div @click="collectMovie" class="function">
-        <p class="m-icon m-iconshoucang"></p>
+        <p class="m-icon" :class="{'m-iconshoucang':!isCollected,'m-iconyishoucang':isCollected}"></p>
         <p class="function-text">收藏</p>
       </div>
-      <div class="function">
+      <div @click="jumpToComment" class="function">
         <p class="m-icon m-iconxiaoxi"></p>
         <p class="function-text">影评</p>
       </div>
@@ -104,7 +104,11 @@ import {
 } from 'common/js/config'
 import { modifyMovieData, modifyStar } from 'api/modify-data'
 import MLoading from 'base/m-loading/m-loading'
-import { addToCollection } from 'api/collect'
+import {
+  addToCollection,
+  checkIsCollected,
+  removeCollection
+} from 'api/collect'
 
 export default {
   created() {
@@ -113,12 +117,24 @@ export default {
       return
     }
     this._getMovieDetail(this.currentMovie.id)
+    if (this.isLogin) {
+      this._checkIsCollected(this.currentMovie.id, this.currentUser.userName)
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (!vm.currentMovie.id) {
+        jumpTo(vm.$router, '/')
+        return
+      }
+    })
   },
   data() {
     return {
       title: '影片详情',
       showingMovie: {},
       isLoading: true,
+      isCollected: false,
       defaultOptions: DEFAULT_SWIPER_OPTIONS,
       avatarsOptions: {
         slidesPerView: 2,
@@ -152,6 +168,11 @@ export default {
         jumpTo(this.$router, '/user/login')
         return
       }
+      if (this.isCollected) {
+        //取消收藏
+        this._removeCollection(this.showingMovie.id, this.currentUser.userName)
+        return
+      }
       let directorsArr = []
       this.showingMovie.directors.forEach(item => {
         directorsArr.push(item.name)
@@ -164,11 +185,34 @@ export default {
         this.currentUser.userName
       ).then(res => {
         if (res.data.code === ERR_OK) {
+          this.isCollected = true
           this.$toast.success('收藏成功')
         } else {
           this.$toast.fail(SERVER_ERR_NOTICE)
         }
       })
+    },
+    _removeCollection(id, userName) {
+      removeCollection(id, userName).then(res => {
+        if (res.data.code === ERR_OK) {
+          this.isCollected = false
+          this.$toast.success('已取消收藏')
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
+        }
+      })
+    },
+    _checkIsCollected(id, userName) {
+      checkIsCollected(id, userName).then(res => {
+        if (res.data.code === 200) {
+          this.isCollected = res.data.isCollected
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
+        }
+      })
+    },
+    jumpToComment() {
+      jumpTo(this.$router, '/movieComment')
     },
     ...mapMutations({
       setCurrentStar: 'SET_CURRENT_STAR'
@@ -177,6 +221,10 @@ export default {
   watch: {
     currentMovie(newMovie) {
       this._getMovieDetail(newMovie.id)
+      this.isCollected = false
+      if (this.isLogin) {
+        this._checkIsCollected(newMovie.id, this.currentUser.userName)
+      }
     }
   },
   computed: {

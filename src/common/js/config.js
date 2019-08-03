@@ -11,6 +11,11 @@ export const registerUrl = localUrl + 'user/register'
 export const checkNameUrl = localUrl + 'user/checkName'
 export const searchUserUrl = localUrl + 'search/user'
 export const addToCollectionUrl = localUrl + 'collect/add'
+export const checkCollectedUrl = localUrl + 'collect/checkCollected'
+export const removeCollectionUrl = localUrl + 'collect/remove'
+export const loadCollectionUrl = localUrl + 'collect/load'
+export const newCommentUrl = localUrl + 'comment/new'
+export const loadCommentUrl = localUrl + 'comment/load/movie/new'
 
 export const rankMap = ['/us_box', '/new_movies', '/weekly']
 export const movieDetailUrl = doubanPrefix + '/subject/'
@@ -32,3 +37,5 @@ export const DEFAULT_SWIPER_OPTIONS = {
   observer: true,
   observeParents: true
 }
+
+export const LIGHT_PRIMARY_COLOR = "#8BC34A"
