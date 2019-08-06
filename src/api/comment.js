@@ -1,7 +1,10 @@
 import axios from 'axios'
 import {
   newCommentUrl,
-  loadCommentUrl
+  loadNewCommentUrl,
+  loadHotCommentUrl,
+  judgeCommentUrl,
+  queryCountUrl
 } from 'common/js/config'
 
 export function newComment(comment, userName, movieInfo) {
@@ -14,11 +17,38 @@ export function newComment(comment, userName, movieInfo) {
   })
 }
 
-export function loadMovieComment(movieInfo, page) {
-  return axios.get(loadCommentUrl, {
+export function loadNewComment(movieInfo, page) {
+  return axios.get(loadNewCommentUrl, {
     params: {
       movieInfo: movieInfo,
       page: page
+    }
+  })
+}
+
+export function loadHotComment(movieInfo, page) {
+  return axios.get(loadHotCommentUrl, {
+    params: {
+      movieInfo: movieInfo,
+      page: page
+    }
+  })
+}
+
+export function judgeComment(flag, comment, commentUser) {
+  return axios.post(judgeCommentUrl, {
+    params: {
+      judgeFlag: flag,
+      comment: comment,
+      commentUser: commentUser
+    }
+  })
+}
+
+export function queryCount(comment) {
+  return axios.get(queryCountUrl, {
+    params: {
+      comment: comment
     }
   })
 }

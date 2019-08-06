@@ -3,6 +3,7 @@ const state = {
   currentUser: null,
   currentMovie: {},
   currentStar: {},
+  currentComment:{},
   keywords: ''
 }
 

@@ -15,7 +15,10 @@ export const checkCollectedUrl = localUrl + 'collect/checkCollected'
 export const removeCollectionUrl = localUrl + 'collect/remove'
 export const loadCollectionUrl = localUrl + 'collect/load'
 export const newCommentUrl = localUrl + 'comment/new'
-export const loadCommentUrl = localUrl + 'comment/load/movie/new'
+export const loadNewCommentUrl = localUrl + 'comment/load/movie/new'
+export const loadHotCommentUrl = localUrl + 'comment/load/movie/hot'
+export const judgeCommentUrl = localUrl + 'comment/judge'
+export const queryCountUrl = localUrl + 'comment/count'
 
 export const rankMap = ['/us_box', '/new_movies', '/weekly']
 export const movieDetailUrl = doubanPrefix + '/subject/'
@@ -39,3 +42,6 @@ export const DEFAULT_SWIPER_OPTIONS = {
 }
 
 export const LIGHT_PRIMARY_COLOR = "#8BC34A"
+
+export const USEFUL_FLAG = 1
+export const USELESS_FLAG = 0

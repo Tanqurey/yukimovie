@@ -26,11 +26,13 @@
       <div class="center-count">
         <van-grid :column-num="2" square :border="false" class="count-body">
           <van-grid-item>
-            <p class="count">{{user.fansCount>maxDisplayNum?'99+':user.fansCount}}</p>
+            <p class="count">{{user.fansList.length>maxDisplayNum?'99+':user.fansList.length}}</p>
             <p class="count-title">我的粉丝</p>
           </van-grid-item>
           <van-grid-item>
-            <p class="count">{{user.subscribeCount>maxDisplayNum?'99+':user.subscribeCount}}</p>
+            <p
+              class="count"
+            >{{user.subscribeList.length>maxDisplayNum?'99+':user.subscribeList.length}}</p>
             <p class="count-title">我的关注</p>
           </van-grid-item>
         </van-grid>
@@ -91,8 +93,8 @@ export default {
       this.$toast.success('已退出当前用户')
       jumpTo(this.$router, '/user/login')
     },
-    jumpToCollection(){
-      jumpTo(this.$router,'/user/collection')
+    jumpToCollection() {
+      jumpTo(this.$router, '/user/collection')
     },
     ...mapActions(['offLine'])
   },

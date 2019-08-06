@@ -4,8 +4,8 @@ export default class User {
     whatsUp,
     exp,
     level,
-    fansCount,
-    subscribeCount,
+    fansList,
+    subscribeList,
     lastLoginTime,
     isAdmin,
   }) {
@@ -13,8 +13,8 @@ export default class User {
     this.whatsUp = whatsUp
     this.exp = exp
     this.level = level
-    this.fansCount = fansCount
-    this.subscribeCount = subscribeCount
+    this.fansList = fansList
+    this.subscribeList = subscribeList
     this.lastLoginTime = lastLoginTime
     this.isAdmin = isAdmin
   }

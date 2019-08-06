@@ -14,6 +14,9 @@ const mutations = {
   },
   [types.SET_KEYWORDS](state, keywords) {
     state.keywords = keywords
+  },
+  [types.SET_CURRENT_COMMENT](state, comment) {
+    state.currentComment = comment
   }
 }
 

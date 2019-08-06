@@ -20,10 +20,10 @@
         v-if="dataList.length"
       >
         <div class="comment-item" v-for="(item,idx) in dataList" :key="idx">
-          <div class="comment-title">
+          <div class="comment-title" @click="jumpToDetail(item)">
             <p>{{item.commentTitle}}</p>
           </div>
-          <div class="comment-summary">
+          <div class="comment-summary" @click="jumpToDetail(item)">
             <p>{{item.commentContent|sliceSummary}}</p>
           </div>
           <van-row class="comment-info">
@@ -36,8 +36,8 @@
               <span>{{item.usefulList.length}}</span>
             </van-col>
             <van-col :span="5">
-              <span class="m-icon m-iconzan2"></span>
-              <span>{{item.uselessList.length}}</span>
+              <span class="m-icon m-iconriqi"></span>
+              <span>{{item.createTime|getCreateDate}}</span>
             </van-col>
           </van-row>
         </div>
@@ -56,14 +56,15 @@
 <script>
 import MHeader from 'base/m-header/m-header'
 import { jumpTo } from 'api/kit'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import Comment from 'common/js/comment'
 import {
   ERR_OK,
   DEFAULT_SWIPER_OPTIONS,
   SERVER_ERR_NOTICE,
   LIGHT_PRIMARY_COLOR
 } from 'common/js/config'
-import { loadMovieComment } from 'api/comment'
+import { loadNewComment, loadHotComment } from 'api/comment'
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -99,10 +100,11 @@ export default {
       jumpTo(this.$router, '/newComment')
     },
     loadMoreNew() {
+      this.isLoading = true
       let movieInfo = {}
       movieInfo.id = this.currentMovie.id
       movieInfo.title = this.currentMovie.title
-      loadMovieComment(movieInfo, this.page).then(res => {
+      loadNewComment(movieInfo, this.page).then(res => {
         if (res.data.code === ERR_OK) {
           if (res.data.commentData.length) {
             this.dataList = this.dataList.concat(res.data.commentData)
@@ -115,10 +117,41 @@ export default {
         } else {
           this.$toast.fail(SERVER_ERR_NOTICE)
         }
+        this.isLoading = false
       })
-      this.isLoading = false
     },
-    loadMoreHot() {}
+    loadMoreHot() {
+      this.isLoading = true
+      let movieInfo = {}
+      movieInfo.id = this.currentMovie.id
+      movieInfo.title = this.currentMovie.title
+      loadHotComment(movieInfo, this.page).then(res => {
+        if (res.data.code === ERR_OK) {
+          if (res.data.commentData.length) {
+            this.dataList = this.dataList.concat(res.data.commentData)
+          }
+          if (res.data.isEnd) {
+            this.finished = true
+          }
+          this.loading = false
+          this.page++
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
+        }
+        this.isLoading = false
+      })
+    },
+    jumpToDetail(comment) {
+      comment.movieInfo = {
+        id: this.currentMovie.id,
+        title: this.currentMovie.title
+      }
+      this.setCurrentComment(new Comment(comment))
+      jumpTo(this.$router, '/commentDetail')
+    },
+    ...mapMutations({
+      setCurrentComment: 'SET_CURRENT_COMMENT'
+    })
   },
   watch: {
     activeIndex(newVal) {
@@ -145,6 +178,10 @@ export default {
       } else {
         return txt
       }
+    },
+    getCreateDate(timeStamp) {
+      timeStamp = new Date(timeStamp)
+      return timeStamp.getMonth() + 1 + '-' + timeStamp.getDate()
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -192,6 +229,9 @@ export default {
         height: 100%;
         line-height: 5vh;
         color: $grey-color;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
 
@@ -217,7 +257,7 @@ export default {
         color: $secondary-text;
 
         .m-icon {
-          color: $light-primary-color;
+          color: $secondary-text;
         }
       }
     }

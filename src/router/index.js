@@ -13,6 +13,7 @@ import SearchResult from 'components/search-result/search-result'
 import MovieComment from 'components/movie-comment/movie-comment'
 import NewComment from 'components/new-comment/new-comment'
 import UserCollection from 'components/user-collection/user-collection'
+import CommentDetail from 'components/comment-detail/comment-detail'
 
 Vue.use(Router)
 
@@ -67,6 +68,10 @@ export default new Router({
     {
       path: '/user/collection',
       component: UserCollection
+    },
+    {
+      path: '/commentDetail',
+      component: CommentDetail
     }
 
   ],

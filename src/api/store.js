@@ -8,6 +8,7 @@ import User from 'common/js/user'
 
 export const getUserFromCookie = (cb) => {
   let userName = window.$cookies.get(CURRENT_USER_KEY)
+  console.log(userName)
   if (userName) {
     userLogin(userName, '', true).then(result => {
       if (result.data.code === 200) {
