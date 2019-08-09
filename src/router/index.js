@@ -14,6 +14,11 @@ import MovieComment from 'components/movie-comment/movie-comment'
 import NewComment from 'components/new-comment/new-comment'
 import UserCollection from 'components/user-collection/user-collection'
 import CommentDetail from 'components/comment-detail/comment-detail'
+import GuestDetail from 'components/guest-detail/guest-detail'
+import UserComment from 'components/user-comment/user-comment'
+import CountDetail from 'components/count-detail/count-detail'
+import LatestComment from 'components/latest-comment/latest-comment'
+import UserConfig from 'components/user-config/user-config'
 
 Vue.use(Router)
 
@@ -40,6 +45,10 @@ export default new Router({
     {
       path: '/user/resetPwd',
       component: ResetPwd
+    },
+    {
+      path: '/user/config',
+      component: UserConfig
     },
     {
       path: '/userCenter',
@@ -72,6 +81,26 @@ export default new Router({
     {
       path: '/commentDetail',
       component: CommentDetail
+    },
+    {
+      path: '/guest',
+      component: GuestDetail
+    },
+    {
+      path: '/user/comment',
+      component: UserComment
+    },
+    {
+      path: '/UserComment',
+      component: UserComment
+    },
+    {
+      path: '/countDetail',
+      component: CountDetail
+    },
+    {
+      path: '/latestComment',
+      component: LatestComment
     }
 
   ],

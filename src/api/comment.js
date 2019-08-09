@@ -4,7 +4,8 @@ import {
   loadNewCommentUrl,
   loadHotCommentUrl,
   judgeCommentUrl,
-  queryCountUrl
+  loadUserCommentUrl,
+  recommendCommentUrl
 } from 'common/js/config'
 
 export function newComment(comment, userName, movieInfo) {
@@ -45,10 +46,19 @@ export function judgeComment(flag, comment, commentUser) {
   })
 }
 
-export function queryCount(comment) {
-  return axios.get(queryCountUrl, {
+export function loadUserComment(userName, page) {
+  return axios.get(loadUserCommentUrl, {
     params: {
-      comment: comment
+      userName: userName,
+      page: page
+    }
+  })
+}
+
+export function getRecommendComment(page) {
+  return axios.get(recommendCommentUrl, {
+    params: {
+      page: page
     }
   })
 }

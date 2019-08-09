@@ -9,8 +9,15 @@
       <div class="comment-rating">
         <van-rate v-model="commentRating" :readonly="true" :color="lightPrimaryColor" />
       </div>
+      <div class="movie-info">
+        <span class="title" @click="jumpToMovie">{{currentComment.movieInfo.title}}</span>
+      </div>
       <van-row class="comment-creator">
-        <van-col class="creator-name" :span="18">{{currentComment.userName}}</van-col>
+        <van-col
+          class="creator-name"
+          :span="18"
+          @click.native="jumpToGuest"
+        >{{currentComment.userName}}</van-col>
         <van-col class="creator-date" :span="6">发表于&nbsp;{{currentComment.createTime|getCreateDate}}</van-col>
       </van-row>
       <van-row class="comment-judge">
@@ -37,9 +44,10 @@
 
 <script>
 import MHeader from 'base/m-header/m-header'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { jumpTo } from 'api/kit'
-import { judgeComment, queryCount } from 'api/comment'
+import { judgeComment } from 'api/comment'
+import { queryCount } from 'api/count'
 import {
   USELESS_FLAG,
   USEFUL_FLAG,
@@ -126,7 +134,19 @@ export default {
         }
         this.$toast.fail(SERVER_ERR_NOTICE)
       })
-    }
+    },
+    jumpToGuest() {
+      this.setCurrentGuest(this.currentComment.userName)
+      jumpTo(this.$router, '/guest')
+    },
+    jumpToMovie() {
+      this.setCurrentMovie(this.currentComment.movieInfo)
+      jumpTo(this.$router, '/movieDetail')
+    },
+    ...mapMutations({
+      setCurrentMovie: 'SET_CURRENT_MOVIE',
+      setCurrentGuest: 'SET_CURRENT_GUEST'
+    })
   },
   components: {
     MHeader
@@ -177,12 +197,33 @@ export default {
     text-align: right;
   }
 
+  .movie-info {
+    font-size: $font-size-small;
+    text-align: center;
+
+    span {
+      display: inline-block;
+      height: 100%;
+      line-height: 4vh;
+      height: 4vh;
+    }
+
+    .title {
+      color: $light-primary-color;
+      max-width: 50vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
   .comment-creator {
     height: 2vh;
     padding: 2vh 3vw;
     font-size: $font-size-mini;
     border-bottom: 1px solid $grey-color;
     border-top: 1px solid $grey-color;
+    margin-top: 2vh;
 
     .van-col {
       height: 2vh;

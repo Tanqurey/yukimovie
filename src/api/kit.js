@@ -45,3 +45,16 @@ export function jumpToByFlag(router, pathA, pathB, flag) {
     path: pathB
   })
 }
+
+export function sliceSummary(txt) {
+  if (txt.length > 70) {
+    return txt.slice(0, 70) + '...'
+  } else {
+    return txt
+  }
+}
+
+export function getCreateDate(timeStamp) {
+  timeStamp = new Date(timeStamp)
+  return timeStamp.getMonth() + 1 + '-' + timeStamp.getDate()
+}

@@ -49,8 +49,8 @@
             <p class="nav-icon m-icon m-icontupian"></p>
             <p class="nav-text">动态</p>
           </van-grid-item>
-          <van-grid-item>
-            <p class="nav-icon m-icon m-iconxiaoxi"></p>
+          <van-grid-item @click.native="jumpToComment">
+            <p class="nav-icon m-icon m-iconxiaoxi" ></p>
             <p class="nav-text">影评</p>
           </van-grid-item>
           <van-grid-item>
@@ -59,6 +59,9 @@
           </van-grid-item>
         </van-grid>
       </div>
+    </div>
+    <div class="home-bottom">
+      <p>{{bottomText}}</p>
     </div>
   </div>
 </template>
@@ -86,7 +89,8 @@ export default {
       },
       swiperOptions: {
         slidesPerView: 3
-      }
+      },
+      bottomText: 'Designed by Tanqurey 2019'
     }
   },
   methods: {
@@ -116,6 +120,9 @@ export default {
       if (!keywords) return
       this.setKeywords(keywords)
       jumpTo(this.$router, '/searchResult')
+    },
+    jumpToComment() {
+      jumpTo(this.$router, '/latestComment')
     },
     ...mapMutations({
       setCurrentMovie: 'SET_CURRENT_MOVIE',
@@ -229,12 +236,11 @@ export default {
 
 .nav-container {
   height: 24vh;
-  margin: 0 auto;
-  margin-top: 0.5rem;
+  margin: 4vh auto;
 
   .left-container {
     width: 49%;
-    height: 8rem;
+    height: 24vh;
     color: $dark-primary-color;
     border-right: 1px solid $light-primary-color;
     float: left;
@@ -262,7 +268,7 @@ export default {
   .right-container {
     .van-grid {
       width: 50%;
-      height: 8rem;
+      height: 24vh;
       background-color: blue;
       float: left;
 
@@ -279,6 +285,23 @@ export default {
         }
       }
     }
+  }
+}
+
+.home-bottom {
+  font-size: $font-size-mini;
+  position: fixed;
+  height: 10vh;
+  width: 100%;
+  bottom: 0;
+  background-color: $dark-primary-color;
+  color: $white-text;
+
+  p {
+    width: 100%;
+    text-align: center;
+    height: 10vh;
+    line-height: 10vh;
   }
 }
 </style>

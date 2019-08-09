@@ -5,6 +5,6 @@ export const currentMovie = state => state.currentMovie
 export const currentStar = state => state.currentStar
 export const currentComment = state => state.currentComment
 export const keywords = state => state.keywords
-
-
-
+export const currentGuest = state => state.currentGuest
+export const countCate = state => state.countCate
+export const listOwner = state => state.listOwner

@@ -3,8 +3,11 @@ const state = {
   currentUser: null,
   currentMovie: {},
   currentStar: {},
-  currentComment:{},
-  keywords: ''
+  currentComment: {},
+  currentGuest: '',
+  keywords: '',
+  countCate: null,
+  listOwner: ''
 }
 
 export default state

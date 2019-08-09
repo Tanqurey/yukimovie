@@ -76,7 +76,7 @@ export function modifyMovieData(json) {
   if (json.photos) {
     let photos = []
     json.photos.forEach(item => {
-      let photo = getImage(item.thumb)
+      let photo = getImage(item.image)
       photos.push(photo)
     })
     movieObj.photos = photos
@@ -155,8 +155,8 @@ export function modifyUser(json) {
   let user = {}
   user.whatsUp = json.whatsUp
   user.level = json.level
-  user.fansCount = json.fansCount
-  user.subscribeCount = json.subscribeCount
+  user.fansList = json.fansList
+  user.subscribeList = json.subscribeList
   user.lastLoginTime = json.lastLoginTime
   user.userName = json.userName
   user.isAdmin = json.isAdmin

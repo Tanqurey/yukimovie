@@ -28,11 +28,12 @@ import {
   Toast,
   Progress,
   Pagination,
-  Rate
+  Rate,
+  Switch
 } from 'vant'
 Vue.use(Button).use(Row).use(Col).use(Field).use(Swipe).use(SwipeItem).use(Lazyload).use(Grid).use(GridItem).use(Divider)
   .use(Sidebar).use(SidebarItem).use(Tab).use(Tabs).use(Loading).use(Popup).use(NavBar).use(Toast).use(Progress)
-  .use(VueCookies).use(Pagination).use(Rate).use(List)
+  .use(VueCookies).use(Pagination).use(Rate).use(List).use(Switch)
 
 Vue.config.productionTip = false
 

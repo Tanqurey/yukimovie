@@ -1,7 +1,7 @@
 <template>
   <div class="center-container">
     <m-header :title="title" />
-    <div class="center-body">
+    <div class="center-body" v-if="this.isLogin">
       <div class="center-header">
         <van-row class="header-name">
           <van-col span="18" class="name">{{user.userName}}</van-col>
@@ -25,14 +25,12 @@
       </div>
       <div class="center-count">
         <van-grid :column-num="2" square :border="false" class="count-body">
-          <van-grid-item>
-            <p class="count">{{user.fansList.length>maxDisplayNum?'99+':user.fansList.length}}</p>
+          <van-grid-item @click.native="viewCountDetail(COUNT_CATE.fans)">
+            <p class="count">{{user.fansList.length|countOmit}}</p>
             <p class="count-title">我的粉丝</p>
           </van-grid-item>
-          <van-grid-item>
-            <p
-              class="count"
-            >{{user.subscribeList.length>maxDisplayNum?'99+':user.subscribeList.length}}</p>
+          <van-grid-item @click.native="viewCountDetail(COUNT_CATE.subscribe)">
+            <p class="count">{{user.subscribeList.length|countOmit}}</p>
             <p class="count-title">我的关注</p>
           </van-grid-item>
         </van-grid>
@@ -43,7 +41,7 @@
             <span class="m-icon m-iconshoucang"></span>
             <span class="function-title">我的收藏</span>
           </li>
-          <li class="function-item">
+          <li class="function-item" @click="jumpToMyComment">
             <span class="m-icon m-iconxiaoxi"></span>
             <span class="function-title">我的影评</span>
           </li>
@@ -51,9 +49,9 @@
             <span class="m-icon m-icontupian"></span>
             <span class="function-title">我的动态</span>
           </li>
-          <li class="function-item">
+          <li class="function-item" @click="jumpToConfig">
             <span class="m-icon m-iconshezhi"></span>
-            <span class="function-title">设置</span>
+            <span class="function-title">个性化</span>
           </li>
           <li class="function-item" @click="_offLine">
             <span class="m-icon m-iconshangyitiao"></span>
@@ -67,24 +65,27 @@
 
 <script>
 import { jumpTo, setToastTime } from 'api/kit'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import MHeader from 'base/m-header/m-header'
 import { levelExp } from 'common/js/user'
 import { LIGHT_PRIMARY_COLOR } from 'common/js/style'
+import { COUNT_CATE } from 'common/js/config'
 
 export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (!vm.currentUser) {
         jumpTo(vm.$router, '/user/login')
+        return
       }
+      vm.setCurrentGuest(vm.currentUser.userName)
     })
   },
   data() {
     return {
       title: '个人中心',
       lightPrimaryColor: LIGHT_PRIMARY_COLOR,
-      maxDisplayNum: 99
+      COUNT_CATE: COUNT_CATE
     }
   },
   methods: {
@@ -96,7 +97,23 @@ export default {
     jumpToCollection() {
       jumpTo(this.$router, '/user/collection')
     },
-    ...mapActions(['offLine'])
+    viewCountDetail(cate) {
+      this.setListOwner(this.currentUser.userName)
+      this.setCountCate(cate)
+      jumpTo(this.$router, '/countDetail')
+    },
+    jumpToMyComment() {
+      jumpTo(this.$router, '/user/comment')
+    },
+    jumpToConfig(){
+      jumpTo(this.$router,'/user/config')
+    },
+    ...mapActions(['offLine']),
+    ...mapMutations({
+      setCurrentGuest: 'SET_CURRENT_GUEST',
+      setCountCate: 'SET_COUNT_CATE',
+      setListOwner: 'SET_LIST_OWNER'
+    })
   },
   computed: {
     nextLevelExp() {
@@ -109,6 +126,11 @@ export default {
       return this.currentUser === null ? {} : this.currentUser
     },
     ...mapGetters(['isLogin', 'currentUser'])
+  },
+  filters: {
+    countOmit(count) {
+      return count > 99 ? '99+' : count
+    }
   },
   components: {
     MHeader

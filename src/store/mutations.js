@@ -17,6 +17,15 @@ const mutations = {
   },
   [types.SET_CURRENT_COMMENT](state, comment) {
     state.currentComment = comment
+  },
+  [types.SET_CURRENT_GUEST](state, guest) {
+    state.currentGuest = guest
+  },
+  [types.SET_COUNT_CATE](state, cate) {
+    state.countCate = cate
+  },
+  [types.SET_LIST_OWNER](state, owner) {
+    state.listOwner = owner
   }
 }
 

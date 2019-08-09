@@ -5,12 +5,17 @@
     </div>
     <swiper class="result-body" :options="defaultOption">
       <swiper-slide class="swiper-body">
-        <van-row class="result-item" v-for="(item,idx) in userSearchResult" :key="idx">
+        <van-row
+          class="result-item"
+          v-for="(item,idx) in userSearchResult"
+          :key="idx"
+          @click.native="visit(item.userName)"
+        >
           <van-col :span="4" class="tag">{{item.isAdmin?'管理员':'用&nbsp;&nbsp;&nbsp;户'}}</van-col>
           <van-col :span="10" class="name">{{item.userName}}</van-col>
           <van-col :span="7" class="count">
-            <span class="m-iconduoren m-icon">&nbsp;{{item.fansCount}}</span>
-            <span class="m-iconguanzhu m-icon">&nbsp;{{item.subscribeCount}}</span>
+            <span class="m-iconduoren m-icon">&nbsp;{{item.fansList.length|countOmit}}</span>
+            <span class="m-iconguanzhu m-icon">&nbsp;{{item.subscribeList.length|countOmit}}</span>
           </van-col>
           <van-col :span="3" class="level">Lv{{item.level}}</van-col>
         </van-row>
@@ -66,6 +71,7 @@ export default {
             let userSearchResult = []
             res.data.searchResult.forEach(item => {
               let user = modifyUser(item)
+              
               userSearchResult.push(user)
             })
             this.userSearchResult = userSearchResult
@@ -75,7 +81,14 @@ export default {
         }
         this.$toast.fail(SERVER_ERR_NOTICE)
       })
-    }
+    },
+    visit(userName) {
+      this.setCurrentGuest(userName)
+      jumpTo(this.$router, '/guest')
+    },
+    ...mapMutations({
+      setCurrentGuest: 'SET_CURRENT_GUEST'
+    })
   },
   watch: {
     keywords(newVal) {
@@ -90,6 +103,11 @@ export default {
   },
   computed: {
     ...mapGetters(['keywords'])
+  },
+  filters: {
+    countOmit(count) {
+      return count > 99 ? '99+' : count
+    }
   }
 }
 </script>
