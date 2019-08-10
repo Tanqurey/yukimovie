@@ -33,6 +33,8 @@
 import MHeader from 'base/m-header/m-header'
 import { mapGetters } from 'vuex'
 import { jumpTo } from 'api/kit'
+import { modifyWhatsUp } from 'api/config'
+import { ERR_OK, SERVER_ERR_NOTICE } from 'common/js/config'
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -50,18 +52,30 @@ export default {
       labelWidth: 60,
       whatsUp: '',
       labelWidth: 60,
-      isWhatsUpModify: false,
       maxLength: 100,
-      isModifying: false
+      isModifying: false,
+      isWhatsUpModify: false
     }
   },
   methods: {
     modifyWhatsUp() {
       this.isWhatsUpModify = true
-      this.whatsUp = ''
+      this.whatsUp = '内容长度不得多于100字符'
     },
     commitWhatsUp() {
+      if (this.whatsUp.length > this.maxLength || this.whatsUp.length === 0) {
+        this.$toast.fail('长度不符合要求')
+      }
       this.isModifying = true
+      modifyWhatsUp(this.currentUser.userName, this.whatsUp).then(res => {
+        if (res.data.code === ERR_OK) {
+          this.$toast.success('修改成功')
+          this.isWhatsUpModify = false
+        } else {
+          this.$toast.fail(SERVER_ERR_NOTICE)
+        }
+        this.isModifying = false
+      })
     }
   },
   computed: {

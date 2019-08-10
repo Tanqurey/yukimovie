@@ -33,9 +33,8 @@ export const levelExp = {
 }
 
 
-export const activityCategoty = {
+export const activityCate = {
   DAILY_LOGIN: 0,
-  POST_A_MOMENT: 1,
   POST_A_COMMENT: 2
 }
 
