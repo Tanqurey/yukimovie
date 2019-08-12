@@ -1,4 +1,4 @@
-export const apikey = '0b2bdeda43b5688921839c8ecb20399b'
+export const apikey = 'YOUR_API_KEY'
 export const doubanPrefix = "/api"
 
 export const localUrl = 'http://localhost:3000/'
