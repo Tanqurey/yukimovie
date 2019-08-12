@@ -1,8 +1,17 @@
 # Yuki Movie
 
-> a vue movie app
+> 基于Vue构建的移动端电影交流社区
 
-## Build Setup
+## 功能介绍
++ 院线电影推荐
++ 用户功能
++ 评论功能
++ 搜索功能（豆瓣搜索API已无法使用）
++ 适配所有移动设备
+
+## 项目截图
+
+## 安装
 
 ``` bash
 # install dependencies
