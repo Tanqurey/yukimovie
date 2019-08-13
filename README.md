@@ -43,7 +43,7 @@
 + Axios
 + Vant
 + npm
-+ webpac
++ webpack
 + stylus
 
 ## 注意
