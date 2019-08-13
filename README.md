@@ -43,7 +43,8 @@
 + Axios
 + Vant
 + npm
-+ webpack
++ webpac
++ stylus
 
 ## 注意
 1.动态功能未实现（其实是还没想好怎么设计）。项目未进行完备测试可能存在未知Bug.
